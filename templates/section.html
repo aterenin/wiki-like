@@ -1,0 +1,25 @@
+{% extends "default.html" %}
+
+{% block main %}
+<header>
+    <h1><a href="{{ get_url(path = section.path, trailing_slash = true) | safe }}">{{ section.title }}</a></h1>
+</header>
+
+{% if section.extra.show_subpages %}
+<details class="n:pages:box" open>
+    <summary class="n:icon">Subpages</summary>
+    <ol>
+        {% for path in section.subsections %}
+            {% set s = get_section(path = path, metadata_only = true) %}
+            <li><a href="{{ get_url(path = s.path, trailing_slash = true) | safe }}">{{ s.title }}</a></li>
+        {% endfor %}
+        {% for p in section.pages %}
+            <li><a href="{{ get_url(path = p.path, trailing_slash = true) | safe }}">{{ p.title }}</a></li>
+        {% endfor %}
+    </ol>
+</details>
+{% endif %}
+
+{{ section.content | safe }}
+
+{% endblock main %}

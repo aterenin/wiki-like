@@ -1,0 +1,71 @@
+@use "variables" as *;
+
+.footnote-reference {
+    line-height: 0;
+}
+
+.footnotes {
+    margin-top: 2rem;
+    font-size: 0.875rem;
+}
+.footnotes .footnotes-list {
+    padding-left: 1.5rem;
+    li {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        text-align: left;
+    }
+    p {
+        margin-bottom: 0.5rem;
+        text-align: left;
+        hyphens: none;
+    }
+}
+
+$numbered: ();
+@for $i from 1 through $max-footnotes {
+    $numbered: append($numbered, "#fn-#{$i}", comma);
+}
+
+@media (min-width: $responsive-medium-cutoff) {
+    @supports (anchor-name: --a) {
+        .footnotes:not(:has(li:not(#{$numbered}))) {
+            margin: 0;
+            padding: 0;
+            .footnotes-list {
+                margin: 0;
+                padding: 0;
+            }
+        }
+        .footnotes-list > :is(#{$numbered}) {
+            position: absolute;
+            left: calc(100% + $note-sep);
+            width: $note-width;
+            margin: 0;
+            list-style-position: inside;
+            > p:first-child {
+                display: inline;
+            }
+            > p:first-child + p {
+                margin-top: 0.5rem;
+            }
+            a[href*="#fr-"] {
+                display: none;
+            }
+        }
+        @for $i from 1 through $max-footnotes {
+            #fr-#{$i}-1 {
+                anchor-name: --fr-#{$i};
+            }
+            #fn-#{$i} {
+                position-anchor: --fr-#{$i};
+                anchor-name: --fnd-#{$i};
+                @if $i == 1 {
+                    top: anchor(top);
+                } @else {
+                    top: max(anchor(top), anchor(--fnd-#{$i - 1} bottom) + 1rem);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,4 @@
+{% if not (config.extra.server_side_mermaid and get_env(name="GITHUB_ACTIONS", default="false") == "true") %}
+    <script defer src="https://cdn.jsdelivr.net/npm/mermaid@12.3.0/dist/mermaid.min.js"></script>
+    <script>window.addEventListener("DOMContentLoaded",()=>{mermaid.initialize({startOnLoad:false});let n=0;document.querySelectorAll('code').forEach(e=>{if(e.dataset.lang==='mermaid'){let z=e.parentNode;let f=document.createElement('figure');f.className='mermaid';mermaid.render(`mermaid-${++n}`,e.innerText).then(r=>{f.innerHTML=r.svg;f.firstElementChild.classList.add('dark-invert');z.parentNode.replaceChild(f,z);});}});});</script>
+{% endif %}

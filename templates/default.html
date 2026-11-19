@@ -1,0 +1,84 @@
+{% set this = page | default(value = section) %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{ get_url(path = 'main.css') | safe }}">
+        {% if this.content is matching(pat = '<pre[^>]*><code(?: data-lang="?plain"?)?>(?:<span[^>]*>)*\\s*\\$\\$(?:\\\\\\$|[^\\$])*\\$\\$\\s*(?:</span>)*</code></pre>|<code>\\$(?:\\\\\\$|[^\\$])*\\$</code>') %}{% include "includes/katex.html" %}{% endif %}
+        {% if this.content is containing(pat = 'data-lang="mermaid"') %}{% include "includes/mermaid.html" %}{% endif %}
+        <title>{{ config.title }}{% if this.path != '/' %} | {{ this.title }}{% endif %}</title>
+    </head>
+
+    <body>
+        <main class="container">
+            <nav class="n:menu" aria-label="Contents">
+                <input type="checkbox" class="n:toggle" aria-label="Contents">
+                {% if page?.path %}
+                    {% set parent = get_section(path = page.ancestors | last) %}
+                {% else %}
+                    {% set parent = section %}
+                {% endif %}
+                <ol class="n:pages">
+                    {% for path in parent.ancestors %}
+                        {% if loop.last %}
+                            {% set a = get_section(path = path, metadata_only = true) %}
+                            <li>
+                                <a href="{{ get_url(path = a.path, trailing_slash = true) | safe }}">{{ a.title }}</a>
+                                <ol>
+                        {% endif %}
+                    {% endfor %}
+                            <li>
+                                <a href="{% if parent.path == this.path %}#{% else %}{{ get_url(path = parent.path, trailing_slash = true) | safe }}{% endif %}">{{ parent.title }}</a>
+                                {% if parent.pages or parent.subsections %}
+                                    <details>
+                                        <summary class="n:icon" aria-label="Pages"></summary>
+                                        <ol>
+                                            {% for path in parent.subsections %}
+                                                {% set s = get_section(path = path, metadata_only = true) %}
+                                                <li><a href="{{ get_url(path = s.path, trailing_slash = true) | safe }}">{{ s.title }}</a></li>
+                                            {% endfor %}
+                                            {% for p in parent.pages %}
+                                                <li{% if p.path == this.path %} class="n:current"{% endif %}><a href="{% if p.path == this.path %}#{% else %}{{ get_url(path = p.path, trailing_slash = true) | safe }}{% endif %}">{{ p.title }}</a></li>
+                                            {% endfor %}
+                                        </ol>
+                                    </details>
+                                {% endif %}
+                            </li>
+                    {% for path in parent.ancestors %}
+                        {% if loop.last %}
+                                </ol>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ol>
+                {% if this.toc %}
+                    <ol class="n:headings">
+                        {% for h in this.toc %}
+                            <li>
+                                <a href="#{{ h.id }}">{{ h.title }}</a>
+                                {% if h.children %}
+                                    <details open>
+                                        <summary class="n:icon" aria-label="Subsections of {{ h.title }}"></summary>
+                                        <ol>
+                                            {% for c in h.children %}
+                                                <li><a href="#{{ c.id }}">{{ c.title }}</a></li>
+                                            {% endfor %}
+                                        </ol>
+                                    </details>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                {% endif %}
+            </nav>
+
+            <article class="content">
+                {% block main %}{% endblock main %}
+            </article>
+        </main>
+    </body>
+
+</html>

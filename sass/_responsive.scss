@@ -1,0 +1,39 @@
+@use "variables" as *;
+
+@media (min-width: $responsive-medium-cutoff) {
+    .container {
+        grid-template-columns: 1fr minmax(0, $text-width) ($note-sep + $note-width) 1fr !important;
+    }
+    .content {
+        position: relative;
+    }
+}
+
+@media (min-width: $responsive-large-cutoff) {
+    .container {
+        grid-template-columns: 1fr minmax(0, $text-width) 1fr !important;
+    }
+    .n\:menu {
+        grid-column: 1 !important;
+        position: sticky;
+        z-index: auto;
+        top: 0;
+        left: auto;
+        max-height: 100vh;
+        padding: 0 0 0 $container-padding;
+        border: none;
+        margin: 0 $note-sep 0 (-$container-padding);
+    }
+    .n\:toggle {
+        display: none;
+    }
+    .n\:toggle:not(:checked) ~ * {
+        display: block;
+    }
+    .n\:menu > ol {
+        padding: 0.5rem 0 0.5rem $container-padding;
+        &:first-of-type {
+            padding-top: 2.5rem;
+        }
+    }
+}

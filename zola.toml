@@ -1,0 +1,17 @@
+title = "Wiki-like"
+base_url = "https://aterenin.github.io/wiki-like"
+compile_sass = true
+build_search_index = false
+generate_feeds = false
+minify_html = true
+
+[markdown]
+bottom_footnotes = true
+highlighting.light_theme = "github-light"
+highlighting.dark_theme = "github-dark"
+smart_punctuation = true
+insert_anchor_links = "heading"
+
+[extra]
+server_side_katex = true
+server_side_mermaid = true
