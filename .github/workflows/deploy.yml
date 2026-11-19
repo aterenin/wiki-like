@@ -50,10 +50,12 @@ jobs:
         run: cp node_modules/katex/dist/katex.min.css public; mkdir -p public/fonts; cp node_modules/katex/dist/fonts/* public/fonts/
         if: ${{ env.SERVER_SIDE_KATEX == 'true' }}
       - name: Install Mermaid
-        run: npm install --ignore-scripts --before="$(date -d '14 days ago' -Iseconds)" mermaid @mermaid-js/mermaid-cli puppeteer && npx puppeteer browsers install chrome-headless-shell
+        run: npm install --ignore-scripts --before="$(date -d '14 days ago' -Iseconds)" mermaid @mermaid-js/mermaid-cli puppeteer
         if: ${{ env.SERVER_SIDE_MERMAID == 'true' }}
       - name: Render Mermaid
         run: node $SCRIPT_DIR/mermaid.mjs
+        env:
+          PUPPETEER_EXECUTABLE_PATH: /opt/google/chrome/chrome
         if: ${{ env.SERVER_SIDE_MERMAID == 'true' }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
