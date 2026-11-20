@@ -1,7 +1,5 @@
 +++
 title = "Wiki-like"
-[extra]
-show_subpages = true
 +++
 
 Welcome to the [Wiki-like](https://github.com/aterenin/wiki-like/) Zola theme! This theme is designed for hosting any content which is best viewed in a style similar to Wikipedia.[^1]

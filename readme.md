@@ -52,5 +52,5 @@ server_side_mermaid = false # set to true to enable server-side Mermaid renderin
 ```toml 
 title = "Page or section title" # a title should be set on every page, to ensure the page can be correctly linked from menus
 [extra]
-show_subpages = true # if the page is a section, setting this to true will generate a menu of pages within the section
+hide_subpages = true # if the page is a section, setting this to true will hide the menu of pages within the section
 ```
