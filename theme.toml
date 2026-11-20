@@ -1,3 +1,10 @@
 name = "Wiki-like"
 description = "A minimal wiki-like Zola theme with server-side math and diagrams"
+license = "MIT"
+homepage = "https://github.com/aterenin/wiki-like"
 min_version = "0.23.0"
+demo = "https://aterenin.github.io/wiki-like"
+
+[author]
+name = "Alexander Terein"
+homepage = "https://avt.im"
