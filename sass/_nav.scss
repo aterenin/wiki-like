@@ -113,16 +113,16 @@
 
 
 $timelines: ();
-@for $i from 1 through 9 {
+@for $i from 1 through $max-sections + 1 {
     $timelines: append($timelines, --h#{$i}, comma);
-    @for $j from 1 through 9 {
+    @for $j from 1 through $max-subsections + 1 {
         $timelines: append($timelines, --h#{$i}-#{$j}, comma);
     }
 }
 .container {
     timeline-scope: $timelines;
 }
-@for $i from 1 through 8 {
+@for $i from 1 through $max-sections {
     .content > h1:nth-of-type(#{$i}) {
         view-timeline-name: --h#{$i};
     }
@@ -132,7 +132,7 @@ $timelines: ();
         animation-range-start: entry 0%;
         animation-fill-mode: forwards;
     }
-    @for $j from 1 through 8 {
+    @for $j from 1 through $max-subsections {
         .content > h2:nth-child(#{$j} of h1:nth-of-type(#{$i}) ~ h2) {
             view-timeline-name: --h#{$i}-#{$j};
         }
@@ -155,7 +155,7 @@ $timelines: ();
         color: var(--color-hover);
     }
 }
-.n\:menu li:not(.n\:current) > a {
+.n\:menu li:not(.n\:current) > a, .n\:pages details:has(.n\:current) li:not(.n\:current) > a {
     --color-primary: var(--color-secondary);
     --color-hover: var(--color-text);
 }
